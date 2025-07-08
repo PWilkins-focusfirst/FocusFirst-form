@@ -73,22 +73,25 @@
 
   <!-- IP Logging Script -->
   <script>
-    fetch('https://ipapi.co/json/')
-      .then(response => response.json())
-      .then(data => {
-        fetch("https://hooks.zapier.com/hooks/catch/22394212/u31ho42/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ip: data.ip,
-            city: data.city,
-            region: data.region,
-            country: data.country_name,
-            timestamp: new Date().toISOString()
-          })
-        });
-      })
-      .catch(error => console.error("IP logging failed:", error));
-  </script>
+  fetch('https://ipapi.co/json/')
+    .then(response => response.json())
+    .then(data => {
+      console.log("IP logging data:", data);
+      return fetch("/api/log-ip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ip: data.ip,
+          city: data.city,
+          region: data.region,
+          country: data.country_name,
+          timestamp: new Date().toISOString()
+        })
+      });
+    })
+    .then(response => response.json())
+    .then(result => console.log("Server response:", result))
+    .catch(error => console.error("Logging error:", error));
+</script>
 </body>
 </html>
