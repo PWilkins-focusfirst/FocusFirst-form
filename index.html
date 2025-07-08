@@ -76,7 +76,7 @@
     fetch('https://ipapi.co/json/')
       .then(response => response.json())
       .then(data => {
-        fetch("YOUR_ZAPIER_WEBHOOK_URL_HERE", {
+        fetch("https://hooks.zapier.com/hooks/catch/22394212/u31ho42/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
